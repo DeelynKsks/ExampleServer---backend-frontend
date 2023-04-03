@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="showData(event)">
+        <h1>Datos de usuario</h1>
+        <br> <br>
+        <p>Nombre</p>
+        <input type="text" name="data">
+        <br>
+        <p>Apellido</p>
+        <input type="text" name="data">
+        <br>
+        <p>Edad</p>
+        <input type="text" name="data">
+        <br>
+        <p>DNI</p>
+        <input type="text" name="data">
+        <br> <br>
+        <button type="submit">Mostrar datos</button>
+    </form>
+
+    <script>
+        const showData = async (e) => {
+            e.preventDefault()
+            const data = document.getElementsByName('data')
+
+            const nombre = data[0].value
+            const apellido = data[1].value
+            const edad = data[2].value
+            const dni = data[3].value
+
+            const consulta = await fetch('http://localhost:7000/datos', {
+                method: 'POST',
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    nombre: nombre,
+                    apellido: apellido,
+                    edad: edad,
+                    dni: dni
+                })
+            })
+                .then(e => e.json())
+                .then(e => console.log(e))
+                .catch(err => console.log({msg: "Algo malió sal", e}))
+
+        }
+    </script>
+</body>
+</html>
